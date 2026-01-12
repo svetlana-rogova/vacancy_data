@@ -3,7 +3,7 @@ import psycopg2
 
 def create_database(database_name: str, params: dict) -> None:
     """Создание базы данных и таблиц для сохранения данных"""
-    conn = psycopg2.connect(dbname='postgres', **params)
+    conn = psycopg2.connect(dbname="postgres", **params)
     conn.autocommit = True
     cur = conn.cursor()
 
@@ -30,6 +30,7 @@ def create_database(database_name: str, params: dict) -> None:
                 CREATE TABLE vacancies(
                     vacancies_id INTEGER PRIMARY KEY,
                     name VARCHAR(255) NOT NULL,
+                    employer TEXT,
                     city TEXT,
                     salary_from INTEGER,
                     salary_to INTEGER,

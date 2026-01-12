@@ -17,11 +17,7 @@ def getting_data(employers_ids: list) -> list[dict[str, Any]]:
         page = 0
         while True:
             vacancies_url = "https://api.hh.ru/vacancies"
-            params = {
-                "employer_id": employer_id,
-                "per_page": 100,
-                "page": page
-            }
+            params = {"employer_id": employer_id, "per_page": 100, "page": page}
             response_vac = requests.get(vacancies_url, params=params)
             if response_vac.status_code != 200:
                 print(f"Произошла ошибка. Статус-код: {response_vac.status_code}")
@@ -34,14 +30,16 @@ def getting_data(employers_ids: list) -> list[dict[str, Any]]:
                 break
             page += 1
 
-        data.append({
-            "employers": {
-                "id": employers["id"],
-                "name": employers["name"],
-                "site_url": employers["site_url"],
-                "city": employers["area"]["name"],
-                "open_vacancies": employers["open_vacancies"],
-            },
-            "vacancies": vacancies
-        })
+        data.append(
+            {
+                "employers": {
+                    "id": employers["id"],
+                    "name": employers["name"],
+                    "site_url": employers["site_url"],
+                    "city": employers["area"]["name"],
+                    "open_vacancies": employers["open_vacancies"],
+                },
+                "vacancies": vacancies,
+            }
+        )
     return data
