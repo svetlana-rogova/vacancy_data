@@ -18,10 +18,9 @@ def create_database(database_name: str, params: dict) -> None:
             cur.execute("""
                 CREATE TABLE employers (
                     employers_id INTEGER PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL,
+                    employer_name VARCHAR(255) NOT NULL,
                     site_url TEXT,
-                    city TEXT,
-                    open_vacancies INTEGER
+                    city TEXT
                 )
             """)
 

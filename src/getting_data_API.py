@@ -34,10 +34,9 @@ def getting_data(employers_ids: list) -> list[dict[str, Any]]:
             {
                 "employers": {
                     "id": employers["id"],
-                    "name": employers["name"],
+                    "employer_name": employers["name"],
                     "site_url": employers["site_url"],
-                    "city": employers["area"]["name"],
-                    "open_vacancies": employers["open_vacancies"],
+                    "city": employers["area"]["name"]
                 },
                 "vacancies": vacancies,
             }

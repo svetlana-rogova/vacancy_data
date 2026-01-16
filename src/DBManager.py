@@ -17,8 +17,17 @@ class DBManager:
         """Получает список всех компаний и количество вакансий у каждой компании"""
         with self.connection() as conn:
             with conn.cursor() as cur:
-                cur.execute("SELECT name, open_vacancies FROM employers")
-                return cur.fetchall()
+                cur.execute(
+                    """SELECT
+                            e.employer_name, COUNT(vacancies_id) as vacancies_count
+                            FROM employers e
+                            JOIN vacancies v USING (employers_id)
+                            GROUP BY e.employer_name
+                """
+                )
+                columns = [desc[0] for desc in cur.description]
+                data = [dict(zip(columns, row)) for row in cur.fetchall()]
+                return data
 
     def get_all_vacancies(self) -> Any:
         """Получает список всех вакансий с указанием названия компании, названия вакансии,
@@ -27,7 +36,7 @@ class DBManager:
             with conn.cursor() as cur:
                 cur.execute(
                     """SELECT
-                            e.name,
+                            e.employer_name,
                             v.name,
                             v.salary_from,
                             v.salary_to,
@@ -36,7 +45,9 @@ class DBManager:
                             JOIN vacancies v USING (employers_id)
                 """
                 )
-                return cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+                data = [dict(zip(columns, row)) for row in cur.fetchall()]
+                return data
 
     def get_avg_salary(self) -> Any:
         """Получает среднюю зарплату по вакансиям"""
@@ -52,7 +63,7 @@ class DBManager:
                         FROM vacancies
                         WHERE salary_from IS NOT NULL OR salary_to IS NOT NULL
                 """)
-                return cur.fetchall()[0]
+                return cur.fetchall()[0][0]
 
     def get_vacancies_with_higher_salary(self) -> Any:
         """Получает список всех вакансий, у которых зарплата выше средней по всем вакансиям."""
@@ -69,7 +80,9 @@ class DBManager:
                 """,
                     (avg_salary,),
                 )
-                return cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+                data = [dict(zip(columns, row)) for row in cur.fetchall()]
+                return data
 
     def get_vacancies_with_keyword(self, world: str) -> Any:
         """Получает список всех вакансий, в названии которых содержатся переданные в метод слова, например python"""
@@ -81,4 +94,6 @@ class DBManager:
                 WHERE name ILIKE %s""",
                     (f"%{world}%",),
                 )
-                return cur.fetchall()
+                columns = [desc[0] for desc in cur.description]
+                data = [dict(zip(columns, row)) for row in cur.fetchall()]
+                return data

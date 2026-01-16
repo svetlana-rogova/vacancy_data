@@ -11,15 +11,14 @@ def save_data_to_database(data: list[dict[str, Any]], database_name: str, params
             employer_data = dict_data["employers"]
             cur.execute(
                 """
-                INSERT INTO employers (employers_id, name, site_url, city, open_vacancies)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO employers (employers_id, employer_name, site_url, city)
+                VALUES (%s, %s, %s, %s)
                 """,
                 (
                     employer_data["id"],
-                    employer_data["name"],
+                    employer_data["employer_name"],
                     employer_data["site_url"],
                     employer_data["city"],
-                    employer_data["open_vacancies"],
                 ),
             )
             vacancies_data = dict_data["vacancies"]
@@ -47,7 +46,7 @@ def save_data_to_database(data: list[dict[str, Any]], database_name: str, params
                         salary_to,
                         currency,
                         vac["employer"]["id"],
-                        vac["employer"]["vacancies_url"],
+                        vac["alternate_url"],
                         vac["published_at"],
                     ),
                 )
