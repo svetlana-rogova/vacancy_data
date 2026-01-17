@@ -4,6 +4,7 @@ import requests
 
 
 def getting_data(employers_ids: list) -> list[dict[str, Any]]:
+    """Функция для получения данных с сайта HeadHunter о компаниях и их вакансиях"""
     data = []
     for employer_id in employers_ids:
         employer_url = f"https://api.hh.ru/employers/{employer_id}"

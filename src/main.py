@@ -7,6 +7,7 @@ from src.save_data_to_database import save_data_to_database
 
 
 def main() -> str:
+    """Функция для объединения функционала всей программы и взаимодействия с пользователем"""
     params = config()
     create_database("hh_vacancies", params)
     employers_ids = [

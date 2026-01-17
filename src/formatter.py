@@ -15,6 +15,7 @@ class Formatter:
 
     @staticmethod
     def format_salary(salary_from: Optional[int], salary_to: Optional[int]) -> str:
+        """Метод для вывода информации о зарплате на основании исходных данных с сайта"""
         if salary_from is not None and salary_to is not None:
             return f"с зарплатой от {salary_from} до {salary_to}"
         elif salary_from is not None:
